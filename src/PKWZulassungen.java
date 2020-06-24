@@ -34,17 +34,17 @@ public class PKWZulassungen extends Application {
 		//Daten für MYSQL-Server
 		connection();
 		String url = "jdbc:mysql://localhost:3306/neuzulassungen";
-		String user ="";
-		String password = "";
+		String user ="root";
+		String password = "hallo123";
 		try {
 			//Java mit MYSQL-Server verbinden
 			Connection connect = DriverManager.getConnection(url, user, password);
 			//WICHTIG: spaltenname im select muss gleich sein wie in Zeile 50 data.getObject(Spaltenname);
 			for(int i = 2000;i<=2020;i++) {
 				//SQL Abfrage für alle 20 Jahre
-				PreparedStatement sql2000 = (PreparedStatement) connect.prepareStatement("SELECT SUM(Audi) as audi ,Sum(MERCEDES) as mercedes, sum(BMW) as bmw" 
-						+" FROM neuzulassungen.zulassungenpkw where ZULASSUNG like '"+i+"%';");
-				ResultSet data = sql2000.executeQuery();
+				PreparedStatement sqlstatement = (PreparedStatement) connect.prepareStatement("SELECT SUM(Audi) as audi ,Sum(MERCEDES)"
+						+"as mercedes, sum(BMW) as bmw FROM neuzulassungen.zulassungenpkw where ZULASSUNG like '"+i+"%';");
+				ResultSet data = sqlstatement.executeQuery();
 				if(data.next()) {
 					//import in Hashmap
 					zulassungen.put(i, new Object[] {data.getObject("audi"), data.getObject("bmw"), data.getObject("mercedes")});
@@ -68,13 +68,14 @@ public class PKWZulassungen extends Application {
 		Axis<Number> yAchse = new NumberAxis();
 		yAchse.setLabel("[Neuzugelassene Autos]");
 
-		XYChart.Data<String, Number> data = null; 
-
+		//XYChart.Data<String, Number> data = null; 
+		//Diagramm erzeugen mit Titel
 		BarChart<String, Number> chart = new BarChart<String, Number>(xAchse, yAchse);
+		chart.setTitle("Zugelassene Autos pro Jahr");
 
-		XYChart.Series<String, Number> seriesMercedes = new XYChart.Series<String, Number>();
-		XYChart.Series<String, Number> seriesAudi = new XYChart.Series<String, Number>();
-		XYChart.Series<String, Number> seriesBmw = new XYChart.Series<String, Number>();
+		BarChart.Series<String, Number> seriesMercedes = new XYChart.Series<String, Number>();
+		BarChart.Series<String, Number> seriesAudi = new XYChart.Series<String, Number>();
+		BarChart.Series<String, Number> seriesBmw = new XYChart.Series<String, Number>();
 		for (int year = 2000; year <= 2020; year++) {
 			seriesAudi.getData().add(new XYChart.Data<String, Number>(Integer.toString(year), (Number) zulassungen.get(year)[0]));
 			seriesBmw.getData().add(new XYChart.Data<String, Number>(Integer.toString(year), (Number) zulassungen.get(year)[1]));
@@ -83,11 +84,8 @@ public class PKWZulassungen extends Application {
 		seriesAudi.setName("Audi");
 		seriesBmw.setName("Bmw");
 		seriesMercedes.setName("Mercedes");
-
 		chart.getData().addAll(seriesAudi,seriesBmw,seriesMercedes);
-
 		s.setScene(new Scene(chart));
-
 		s.show();		
 	}
 }
