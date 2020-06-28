@@ -34,7 +34,7 @@ public class PKWZulassungen extends Application {
 		//Daten für MYSQL-Server
 		connection();
 		String url = "jdbc:mysql://localhost:3306/neuzulassungen";
-		String user ="root";
+		String user = "root";
 		String password = "hallo123";
 		try {
 			//Java mit MYSQL-Server verbinden
@@ -59,8 +59,16 @@ public class PKWZulassungen extends Application {
 			System.out.println("[connectionToMySql.catch]: " + e);
 		}
 	}
-	@SuppressWarnings({ "unused", "unchecked" })
+
 	public void start(Stage s) throws Exception{
+		
+		CSVReader.einlese();
+		diagramm(s);
+
+	}
+
+	@SuppressWarnings("unchecked")
+	public void diagramm (Stage s) {
 		//X-Achse erstellen und beschriften
 		CategoryAxis xAchse = new CategoryAxis();
 		xAchse.setLabel("[Jahr]");
@@ -73,19 +81,21 @@ public class PKWZulassungen extends Application {
 		BarChart<String, Number> chart = new BarChart<String, Number>(xAchse, yAchse);
 		chart.setTitle("Zugelassene Autos pro Jahr");
 
-		BarChart.Series<String, Number> seriesMercedes = new XYChart.Series<String, Number>();
-		BarChart.Series<String, Number> seriesAudi = new XYChart.Series<String, Number>();
-		BarChart.Series<String, Number> seriesBmw = new XYChart.Series<String, Number>();
+		BarChart.Series<String, Number> seriesMercedes = new BarChart.Series<String, Number>();
+		BarChart.Series<String, Number> seriesAudi = new BarChart.Series<String, Number>();
+		BarChart.Series<String, Number> seriesBmw = new BarChart.Series<String, Number>();
 		for (int year = 2000; year <= 2020; year++) {
-			seriesAudi.getData().add(new XYChart.Data<String, Number>(Integer.toString(year), (Number) zulassungen.get(year)[0]));
-			seriesBmw.getData().add(new XYChart.Data<String, Number>(Integer.toString(year), (Number) zulassungen.get(year)[1]));
-			seriesMercedes.getData().add(new XYChart.Data<String, Number>(Integer.toString(year), (Number) zulassungen.get(year)[2]));
+			seriesAudi.getData().add(new BarChart.Data<String, Number>(Integer.toString(year), (Number) zulassungen.get(year)[0]));
+			seriesBmw.getData().add(new BarChart.Data<String, Number>(Integer.toString(year), (Number) zulassungen.get(year)[1]));
+			seriesMercedes.getData().add(new BarChart.Data<String, Number>(Integer.toString(year), (Number) zulassungen.get(year)[2]));
 		}
+		//Legende unten hinzufügen
 		seriesAudi.setName("Audi");
 		seriesBmw.setName("Bmw");
 		seriesMercedes.setName("Mercedes");
+		//Daten ins Diagramm laden
 		chart.getData().addAll(seriesAudi,seriesBmw,seriesMercedes);
 		s.setScene(new Scene(chart));
-		s.show();		
+		s.show();
 	}
 }

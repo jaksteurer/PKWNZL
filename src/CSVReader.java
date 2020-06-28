@@ -14,7 +14,7 @@ public class CSVReader {
 	public static void main(String[]args) {
 
 		einlese();
-		Arrayausgeben(); 
+		//Arrayausgeben(); 
 	}
 	public static void einlese() {
 		AnzahlSpalteZeile();
@@ -24,13 +24,14 @@ public class CSVReader {
 		try {
 			sc = new Scanner(new BufferedReader(new FileReader(DATEIPFAD)));
 			while (sc.hasNextLine()) {
-				InputLine= sc.nextLine();
-				String[] inArr = InputLine.split("/t ");
+				InputLine = sc.nextLine();
+				String[] inArr = InputLine.split("; ");
 				for (int x = 0; x < inArr.length; x++) {
 					arr[zZaehler][x]=inArr[x];
+					System.out.println(arr[zZaehler][x]);
+				}
 				}
 				zZaehler++;
-			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("[einlese]: "+e);
@@ -39,10 +40,10 @@ public class CSVReader {
 	public static void Arrayausgeben() {
 		int zeile;
 		int spalte;
-		for( zeile = 0;zeile<anzahlZeilen; zeile++) {
+		for( zeile = 1;zeile<anzahlZeilen; zeile++) {
 			for( spalte = 0;spalte<anzahlSpalten; spalte++) {
-				System.out.println(arr[0][spalte]);
-				System.out.println(arr[zeile][spalte]+"\n");
+				//System.out.println(arr[0][spalte]);
+				//System.out.println(arr[zeile][spalte]+"\n");
 			}
 		}
 	}
