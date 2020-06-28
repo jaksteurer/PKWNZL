@@ -34,8 +34,8 @@ public class PKWZulassungen extends Application {
 		//Daten für MYSQL-Server
 		connection();
 		String url = "jdbc:mysql://localhost:3306/neuzulassungen";
-		String user = "root";
-		String password = "hallo123";
+		String user = "";
+		String password = "";
 		try {
 			//Java mit MYSQL-Server verbinden
 			Connection connect = DriverManager.getConnection(url, user, password);

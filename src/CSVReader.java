@@ -3,9 +3,7 @@ import java.io.FileReader;
 import java.util.Scanner;
 
 public class CSVReader {
-	public static  final String DATEIPFAD= "C:\\Jakob\\Schule HTL Anichstraﬂe\\Jakob Schule 4AHWII (19-20)"
-										+"\\SWP_1 und OP (Rubner)\\Projekt (PKW Neuzulassunge  ab 2000)"
-										+"\\OGD_fkfzul0759_OD_PkwNZL_1.csv";
+	public static  final String DATEIPFAD = "";
 	public static String InputLine = "";
 	public static String [][] arr;
 	public static int anzahlZeilen = 0;
